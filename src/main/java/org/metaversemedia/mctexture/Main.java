@@ -12,6 +12,7 @@ public class Main {
 	public static void main(String[] args) {
 		if (args.length < 1) {
 			System.out.println("Usage: mc-texture-anim-compiler <input directory> [output file]");
+			return;
 		}
 		
 		File inputFolder = new File(args[0]);
@@ -34,8 +35,9 @@ public class Main {
 		try {
 			imageSequence = ImageSequence.fromFolder(inputFolder);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			System.out.println("Error reading image sequence!");
 			e.printStackTrace();
+			return;
 		}
 		
 		// Compile texture
@@ -46,8 +48,9 @@ public class Main {
 			System.out.println("Writing compiled image to: "+targetPath);
 			ImageIO.write(compiledTexture, "PNG", new File(targetPath));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			System.out.println("Error writing image file!");
 			e.printStackTrace();
+			return;
 		}
 
 	}

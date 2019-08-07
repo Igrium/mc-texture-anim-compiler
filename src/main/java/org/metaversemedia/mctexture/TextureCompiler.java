@@ -26,6 +26,12 @@ public class TextureCompiler {
 		// Draw all images to target
 		Graphics g = combined.getGraphics();
 		for (int i = 0; i < imageSequence.length(); i++) {
+			// Make sure image is the right size
+			if (imageSequence.get(i).getWidth() != w || imageSequence.get(i).getHeight() != fh) {
+				System.out.println("Unable to compile. Not all images are the same size!");
+				return null;
+			}
+			
 			g.drawImage(imageSequence.get(i), 0, i*fh, null);
 		}
 		

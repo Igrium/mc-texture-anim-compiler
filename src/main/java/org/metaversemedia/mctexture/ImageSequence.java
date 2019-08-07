@@ -67,7 +67,7 @@ public class ImageSequence implements Iterable<BufferedImage> {
 		// Add all images to image sequence
 		ImageSequence imageSequence = new ImageSequence();
 		for (File f : images) {
-			System.out.println("Loading image: "+f);
+			System.out.println("Loading image: "+f.getName());
 			
 			imageSequence.images.add(ImageIO.read(f));
 		}
