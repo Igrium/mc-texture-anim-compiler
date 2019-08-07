@@ -6,12 +6,17 @@
  * user guide available at https://docs.gradle.org/5.0/userguide/java_library_plugin.html
  */
 
+
 plugins {
     // Apply the java-library plugin to add support for Java Library
     id 'java-library'
     id 'application'
     id 'eclipse'
 }
+
+version = '0.1.0'
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 repositories {
     // Use jcenter for resolving your dependencies.
@@ -22,10 +27,7 @@ repositories {
 
 dependencies {
     // This dependency is exported to consumers, that is to say found on their compile classpath.
-    api 'commons-io:commons-io:2.6'
-
-    // This dependency is used internally, and not exposed to consumers on their own compile classpath.
-    implementation 'com.google.guava:guava:26.0-jre'
+    compile group: 'commons-io', name: 'commons-io', version: '2.6'
 
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
@@ -33,4 +35,23 @@ dependencies {
 
 application {
     mainClassName = "org.metaversemedia.mctexture.Main"
+}
+
+jar {
+	manifest {
+		attributes 'Main-Class': 'org.metaversemedia.mctexture.Main'
+	}
+}
+
+
+//create a single Jar with all dependencies
+task fatJar(type: Jar) {
+	manifest {
+        attributes 'Implementation-Title': 'Minecraft Animated Texture Compiler',  
+        	'Implementation-Version': version,
+        	'Main-Class': 'org.metaversemedia.mctexture.Main'
+    }
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
 }
